@@ -1,4 +1,4 @@
-package main // import "github.com/marksteve/devcup04"
+package main // import "github.com/marksteve/radioslack"
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/labstack/echo"
 	mw "github.com/labstack/echo/middleware"
-	"github.com/marksteve/devcup04/radioslack"
+	"github.com/marksteve/radioslack/radioslack"
 )
 
 type Config struct {
