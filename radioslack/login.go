@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	"github.com/antonholmquist/jason"
+	"github.com/garyburd/redigo/redis"
 	"github.com/labstack/echo"
 	"github.com/parnurzeal/gorequest"
 )
@@ -37,9 +38,17 @@ func OAuth(c *echo.Context) error {
 		End()
 	v, _ = jason.NewObjectFromReader(res.Body)
 	teamId, _ := v.GetString("team_id")
+	cookie := &http.Cookie{
+		Name:  "teamId",
+		Value: teamId,
+	}
+	http.SetCookie(c.Response(), cookie)
 	rc := rp.Get()
-	rc.Do("SADD", "radioslack:teams", teamId)
-	rc.Do("SET", fmt.Sprintf("radioslack:%s:token", teamId), token)
-	rc.Do("PUBLISH", "radioslack", teamId)
+	exists, _ := redis.Bool(rc.Do("SISMEMBER", "radioslack:teams", teamId))
+	if !exists {
+		rc.Do("SADD", "radioslack:teams", teamId)
+		rc.Do("SET", fmt.Sprintf("radioslack:%s:token", teamId), token)
+		rc.Do("PUBLISH", "radioslack", teamId)
+	}
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
