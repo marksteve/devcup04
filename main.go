@@ -35,6 +35,7 @@ func main() {
 
 	e.Get("/login", radioslack.Login)
 	e.Get("/oauth", radioslack.OAuth)
+	e.Get("/me", radioslack.Me)
 	e.Static("/", "static")
 	e.WebSocket("/e/:teamId/:ch", radioslack.Events)
 

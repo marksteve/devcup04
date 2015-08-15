@@ -1,6 +1,7 @@
 package radioslack
 
 import (
+	"encoding/base64"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -39,8 +40,8 @@ func OAuth(c *echo.Context) error {
 	v, _ = jason.NewObjectFromReader(res.Body)
 	teamId, _ := v.GetString("team_id")
 	cookie := &http.Cookie{
-		Name:  "teamId",
-		Value: teamId,
+		Name:  "profile",
+		Value: base64.StdEncoding.EncodeToString([]byte(v.String())),
 	}
 	http.SetCookie(c.Response(), cookie)
 	rc := rp.Get()
