@@ -1,0 +1,20 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "semi": [2, "never"],
+    "comma-dangle": [2, "always-multiline"],
+    "quotes": 0
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "jsx": true
+  },
+  "plugins": [
+    "react"
+  ]
+}
+

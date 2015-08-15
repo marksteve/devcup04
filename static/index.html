@@ -2,13 +2,16 @@
 <html lang="en">
   <head>
     <title>RadioSlack</title>
+    <link rel="stylesheet" href="/radioslack.css">
   </head>
   <body>
+    <script src="//use.typekit.net/rsf7fuq.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <script src="/radioslack.js"></script>
     <script>
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-      RadioSlack.open(container);
+      var root = document.createElement('div');
+      document.body.appendChild(root);
+      RadioSlack.open(root);
     </script>
   </body>
 </html>

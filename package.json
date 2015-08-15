@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify --extension=.jsx radioslack.jsx -o static/radioslack.js -v"
+    "watch": "watchify --extension=.jsx static/radioslack.jsx -o static/radioslack.js -v"
   },
   "author": "marksteve",
   "devDependencies": {
@@ -23,7 +23,11 @@
     "moment": "^2.10.6",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
-    "socket.io-client": "^1.3.6",
-    "watchify": "^3.3.1"
+    "socket.io-client": "^1.3.6"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   }
 }
