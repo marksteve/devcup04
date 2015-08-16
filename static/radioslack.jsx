@@ -2,12 +2,14 @@ import React from 'react'
 import superagent from 'superagent'
 import cn from 'classnames'
 import SoundCloudAudio from 'soundcloud-audio'
+import indexBy from 'lodash/collection/indexBy'
 
 var App = React.createClass({
   getInitialState() {
     return {
       showLogin: true,
       channel: null,
+      users: [],
       channels: [],
       queue: [],
       playing: null,
@@ -43,6 +45,9 @@ var App = React.createClass({
       React.findDOMNode(this)
         .querySelector('.queue')
         .style.backgroundImage = `url(${song.thumb_url})`
+    }
+    if (!prevState.users.length && this.state.users.length) {
+      this.users = indexBy(this.state.users, 'id')
     }
   },
   render() {
@@ -150,8 +155,11 @@ var App = React.createClass({
         {playing ? (
         <i className="play icon-controller-play" />
         ) : null}
-        {song.title}
-        <i className="service icon-soundcloud" />
+        <span className="song-title">{song.title}</span>
+        <div className="poster">
+          <i className="service icon-soundcloud" />
+          <span>{this.users[song.user].name}</span>
+        </div>
       </li>
     )
   },

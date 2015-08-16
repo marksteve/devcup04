@@ -117,7 +117,7 @@ header {
   background: rgba(255, 255, 255, 0.8);
 }
 
-.queue li.playing {
+.queue li.playing .song-title {
   font-weight: bold;
 }
 
@@ -126,11 +126,16 @@ header {
   line-height: 1;
 }
 
-.queue li .service {
+.queue li .poster {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.queue li .service {
+  margin-right: 10px;
   font-size: 1.5em;
+  vertical-align: middle;
 }
 
 .empty-queue {

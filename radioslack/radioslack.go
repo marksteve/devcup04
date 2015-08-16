@@ -1,6 +1,7 @@
 package radioslack
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,7 +17,13 @@ var allowedServices = map[string]bool{
 	"SoundCloud": true,
 }
 
-func processAttachments(key string, attachments []*jason.Object) {
+func getSong(rc redis.Conn, songKey string) string {
+	song, _ := redis.StringMap(rc.Do("HGETALL", songKey))
+	songJson, _ := json.Marshal(song)
+	return string(songJson[:])
+}
+
+func processAttachments(key, user string, attachments []*jason.Object) {
 	for _, attachment := range attachments {
 		sn, _ := attachment.GetString("service_name")
 		_, allowed := allowedServices[sn]
@@ -42,8 +49,20 @@ func processAttachments(key string, attachments []*jason.Object) {
 		} else {
 			nextEnd = end + du
 		}
-		rc.Do("ZADD", key, nextEnd, attachment.String())
-		rc.Do("PUBLISH", key, attachment.String())
+		songKey := fmt.Sprintf("radioslack:songs:%x", fu)
+		song := []interface{}{songKey}
+		for af, av := range attachment.Map() {
+			avs, err := av.String()
+			if err != nil {
+				avn, _ := av.Number()
+				avs = avn.String()
+			}
+			song = append(song, af, avs)
+		}
+		song = append(song, "user", user)
+		rc.Do("HMSET", song...)
+		rc.Do("ZADD", key, nextEnd, songKey)
+		rc.Do("PUBLISH", key, getSong(rc, songKey))
 		rc.Do("SET", key+":end", nextEnd)
 		rc.Do("SADD", "radioslack:queues", key)
 	}
@@ -74,9 +93,12 @@ func TeamWorker(teamId string) {
 				continue
 			}
 			ch, _ := v.GetString("channel")
+			user, _ := v.GetString("message", "user")
 			attachments, _ := v.GetObjectArray("message", "attachments")
-			key := fmt.Sprintf("radioslack:%s:%s:queue", teamId, ch)
-			processAttachments(key, attachments)
+			if len(attachments) > 0 {
+				key := fmt.Sprintf("radioslack:%s:%s:queue", teamId, ch)
+				processAttachments(key, user, attachments)
+			}
 		}
 	}
 }

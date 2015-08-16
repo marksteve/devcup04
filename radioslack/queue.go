@@ -15,7 +15,8 @@ func Queue(c *echo.Context) error {
 	key := fmt.Sprintf("radioslack:%s:%s:queue", teamId, ch)
 	rc := rp.Get()
 	queue, _ := redis.Strings(rc.Do("ZRANGEBYSCORE", key, "-inf", "inf"))
-	for _, song := range queue {
+	for _, songKey := range queue {
+		song := getSong(rc, songKey)
 		websocket.Message.Send(ws, song)
 	}
 	psc := redis.PubSubConn{rc}
