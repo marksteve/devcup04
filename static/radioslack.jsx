@@ -26,7 +26,9 @@ var App = React.createClass({
         }
         this.setState(res.body, () => {
           this.setState({showLoading: false})
-          this.openChannel(this.state.channels[0])
+          if (res.ok) {
+            this.openChannel(this.state.channels[0])
+          }
         })
       })
   },
