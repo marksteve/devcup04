@@ -7,6 +7,7 @@ import indexBy from 'lodash/collection/indexBy'
 var App = React.createClass({
   getInitialState() {
     return {
+      showLoading: true,
       showLogin: true,
       channel: null,
       users: [],
@@ -24,6 +25,7 @@ var App = React.createClass({
           this.setState({showLogin: false})
         }
         this.setState(res.body, () => {
+          this.setState({showLoading: false})
           this.openChannel(this.state.channels[0])
         })
       })
@@ -51,7 +53,19 @@ var App = React.createClass({
     }
   },
   render() {
-    return (
+    return this.state.showLoading ? (
+      <div className="loading">
+        <h1>
+          <span>Radio</span>
+          <span>S</span>
+          <span>l</span>
+          <span>a</span>
+          <span>c</span>
+          <span>k</span>
+        </h1>
+        Loading&hellip;
+      </div>
+      ) : (
       <div className="app">
         <header>
           <h1>
