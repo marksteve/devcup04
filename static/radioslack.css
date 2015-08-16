@@ -20,9 +20,6 @@ h1, h2, h3 {
 h1 {
   font-family: azo-sans-uber, sans-serif;
   font-size: 1.5rem;
-  line-height: 1.5rem;
-  padding: 10px;
-  border-bottom: 1px solid;
 }
 h1 span:nth-child(n+1) {
   color: #6ecadc;
@@ -38,6 +35,19 @@ h1 span:nth-child(4n+1) {
 }
 h1 span:last-child {
   color: inherit;
+}
+
+header {
+  line-height: 1.5rem;
+  padding: 10px;
+  border-bottom: 1px solid;
+  position: relative;
+}
+
+.me {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 ul {
@@ -64,7 +74,8 @@ ul {
   top: calc(20px + 1.5rem + 1px);
   bottom: 0;
   right: 0;
-  left: 10%;
+  left: 15rem;
+  background-color: white;
   background-position: center center;
   background-size: cover;
 }
@@ -73,10 +84,14 @@ ul {
   padding: 10px;
   border-bottom: 1px solid;
   position: relative;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.8);
 }
 
-.queue li .playing {
+.queue li.playing {
+  font-weight: bold;
+}
+
+.queue li .play {
   font-size: 1.5rem;
   vertical-align: text-bottom;
 }
@@ -88,3 +103,6 @@ ul {
   font-size: 1.5rem;
 }
 
+.empty-queue {
+  padding: 10px;
+}

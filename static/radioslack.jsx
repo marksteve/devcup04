@@ -14,6 +14,7 @@ var App = React.createClass({
   },
   componentDidMount() {
     this.scPlayer = new SoundCloudAudio('392fa845f8cff3705b90006915b15af0');
+    this.scPlayer.on('ended', this.nextSong)
     superagent.get('/me')
       .end((err, res) => {
         this.setState(res.body, () => {
@@ -22,36 +23,49 @@ var App = React.createClass({
       })
   },
   componentDidUpdate(prevProps, prevState) {
+    // Start playing
     if (!prevState.queue.length && this.state.queue.length) {
-      let song = this.state.queue[0]
-      this.scPlayer.resolve(song.from_url, (track) => {
-        this.setState({playing: 0})
+      this.setState({playing: 1})
+    }
+    let {playing} = this.state
+    if (this.state.playing && prevState.playing !== playing) {
+      let song = this.state.queue[playing - 1]
+      this.scPlayer.resolve(song.from_url, () => {
         this.scPlayer.play()
       })
-    }
-    if (prevState.playing !== this.state.playing) {
-      let bg = this.state.queue[this.state.playing].thumb_url
       React.findDOMNode(this)
         .querySelector('.queue')
-        .style.backgroundImage = `url(${bg})`
+        .style.backgroundImage = `url(${song.thumb_url})`
     }
   },
   render() {
     return (
       <div className="app">
-        <h1>
-          <span>R</span>
-          <span>a</span>
-          <span>d</span>
-          <span>i</span>
-          <span>o</span>
-          Slack
-        </h1>
+        <header>
+          <h1>
+            <span>R</span>
+            <span>a</span>
+            <span>d</span>
+            <span>i</span>
+            <span>o</span>
+            Slack
+          </h1>
+          <div className="me">
+            {this.state.team} / {this.state.user}
+          </div>
+        </header>
         <ul className="channels">
         {this.state.channels.map(this.renderChannel)}
         </ul>
         <ul className="queue">
-          {this.state.queue.map(this.renderSong)}
+        {this.state.queue.length ? (
+          this.state.queue.map(this.renderSong)
+        ) : (
+          <div className="empty-queue">
+            Post a Soundcloud song in this channel
+            to get your station started.
+          </div>
+        )}
         </ul>
       </div>
     )
@@ -72,9 +86,11 @@ var App = React.createClass({
     )
   },
   openChannel(channel) {
+    this.scPlayer.stop()
     this.setState({
       channel: channel,
       queue: [],
+      playing: null,
     })
     if (this.socket) {
       this.socket.close()
@@ -99,18 +115,22 @@ var App = React.createClass({
     }
   },
   renderSoundCloud(song, i) {
+    let playing = this.state.playing - 1 === i
     return (
       <li
         key={i}
-        className="soundcloud"
+        className={cn('soundcloud', {'playing': playing})}
       >
-        {this.state.playing === i ? (
-        <i className="playing icon-controller-play" />
+        {playing ? (
+        <i className="play icon-controller-play" />
         ) : null}
-        <strong>{song.title}</strong>
+        {song.title}
         <i className="service icon-soundcloud" />
       </li>
     )
+  },
+  nextSong() {
+    this.setState({playing: this.state.playing + 1})
   },
 })
 
