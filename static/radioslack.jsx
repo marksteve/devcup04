@@ -54,12 +54,15 @@ var App = React.createClass({
             Slack
           </h1>
           <div className="me">
-            {this.state.team} / {this.state.user}
+            {this.state.user}
           </div>
         </header>
-        <ul className="channels">
-        {this.state.channels.map(this.renderChannel)}
-        </ul>
+        <div className="channels">
+          <h2>{this.state.team}</h2>
+          <ul>
+          {this.state.channels.map(this.renderChannel)}
+          </ul>
+        </div>
         <ul className="queue">
         {this.state.queue.length ? (
           this.state.queue.map(this.renderSong)
