@@ -30,6 +30,9 @@ var App = React.createClass({
     let {playing} = this.state
     if (this.state.playing && prevState.playing !== playing) {
       let song = this.state.queue[playing - 1]
+      if (!song) {
+        return
+      }
       this.scPlayer.resolve(song.from_url, () => {
         this.scPlayer.play()
       })
