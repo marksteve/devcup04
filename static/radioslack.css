@@ -1,6 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: white;
+}
+
 body {
-  background: #333;
-  color: #f93;
+  font: 20px/1.5 futura-pt, sans-serif;
+  color: #444;
   padding: 0;
   margin: 0;
 }
@@ -11,8 +19,72 @@ h1, h2, h3 {
 
 h1 {
   font-family: azo-sans-uber, sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+h1 span:nth-child(n+1) {
+  color: #6ecadc;
+}
+h1 span:nth-child(2n+1) {
+  color: #e9a820;
+}
+h1 span:nth-child(3n+1) {
+  color: #3eb991;
+}
+h1 span:nth-child(4n+1) {
+  color: #e01563;
+}
+h1 span:last-child {
+  color: inherit;
 }
 
-.app {
-  padding: 20px;
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
+.channels {
+  padding: 10px;
+}
+
+.channels li {
+  cursor: pointer;
+}
+
+.channels li.active {
+  font-weight: bold;
+}
+
+.queue {
+  border-left: 1px solid;
+  position: absolute;
+  top: calc(20px + 1.5rem + 1px);
+  bottom: 0;
+  right: 0;
+  left: 10%;
+  background-position: center center;
+  background-size: cover;
+}
+
+.queue li {
+  padding: 10px;
+  border-bottom: 1px solid;
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.queue li .playing {
+  font-size: 1.5rem;
+  vertical-align: text-bottom;
+}
+
+.queue li .service {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+}
+

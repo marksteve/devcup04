@@ -33,11 +33,11 @@ func main() {
 	e.Use(mw.Recover())
 	e.Use(ConfigContext())
 
+	e.Static("/", "static")
 	e.Get("/login", radioslack.Login)
 	e.Get("/oauth", radioslack.OAuth)
 	e.Get("/me", radioslack.Me)
-	e.Static("/", "static")
-	e.WebSocket("/e/:teamId/:ch", radioslack.Events)
+	e.WebSocket("/queue/:teamId/:ch", radioslack.Queue)
 
 	go radioslack.Start()
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/antonholmquist/jason"
 	"github.com/garyburd/redigo/redis"
@@ -12,7 +13,6 @@ import (
 )
 
 var allowedServices = map[string]bool{
-	"YouTube":    true,
 	"SoundCloud": true,
 }
 
@@ -49,10 +49,9 @@ func TeamRTM(teamId string) {
 					continue
 				}
 				_rc := rp.Get()
-				key := fmt.Sprintf("radioslack:%s:%s:songs", teamId, ch)
-				_rc.Do("SET", key, attachment.String())
-				_rc.Do("PUBLISH", key, "new_song")
-				log.Printf("New message on: %s", key)
+				key := fmt.Sprintf("radioslack:%s:%s:queue", teamId, ch)
+				_rc.Do("ZADD", key, time.Now().Unix(), attachment.String())
+				_rc.Do("PUBLISH", key, attachment.String())
 			}
 		}
 	}

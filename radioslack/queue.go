@@ -8,13 +8,18 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-func Events(c *echo.Context) error {
+func Queue(c *echo.Context) error {
 	teamId := c.P(0)
 	ch := c.P(1)
 	ws := c.Socket()
+	key := fmt.Sprintf("radioslack:%s:%s:queue", teamId, ch)
 	rc := rp.Get()
+	queue, _ := redis.Strings(rc.Do("ZRANGEBYSCORE", key, "-inf", "inf"))
+	for _, song := range queue {
+		websocket.Message.Send(ws, song)
+	}
 	psc := redis.PubSubConn{rc}
-	psc.Subscribe(fmt.Sprintf("radioslack:%s:%s:songs", teamId, ch))
+	psc.Subscribe(key)
 	for {
 		switch v := psc.Receive().(type) {
 		case redis.Message:
