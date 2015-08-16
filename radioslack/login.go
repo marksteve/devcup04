@@ -53,3 +53,13 @@ func OAuth(c *echo.Context) error {
 	}
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }
+
+func Logout(c *echo.Context) error {
+	cookie := &http.Cookie{
+		Name:   "profile",
+		Value:  "",
+		MaxAge: -1,
+	}
+	http.SetCookie(c.Response(), cookie)
+	return c.Redirect(http.StatusTemporaryRedirect, "/")
+}

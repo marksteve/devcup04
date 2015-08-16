@@ -6,6 +6,7 @@ import SoundCloudAudio from 'soundcloud-audio'
 var App = React.createClass({
   getInitialState() {
     return {
+      showLogin: true,
       channel: null,
       channels: [],
       queue: [],
@@ -17,6 +18,9 @@ var App = React.createClass({
     this.scPlayer.on('ended', this.nextSong)
     superagent.get('/me')
       .end((err, res) => {
+        if (res.ok) {
+          this.setState({showLogin: false})
+        }
         this.setState(res.body, () => {
           this.openChannel(this.state.channels[0])
         })
@@ -46,33 +50,49 @@ var App = React.createClass({
       <div className="app">
         <header>
           <h1>
-            <span>R</span>
+            <span>Radio</span>
+            <span>S</span>
+            <span>l</span>
             <span>a</span>
-            <span>d</span>
-            <span>i</span>
-            <span>o</span>
-            Slack
+            <span>c</span>
+            <span>k</span>
           </h1>
+          {this.state.user ? (
           <div className="me">
-            {this.state.user}
+            {this.state.user} &mdash; <a href="/logout">Logout</a>
           </div>
+          ) : null}
         </header>
-        <div className="channels">
-          <h2>{this.state.team}</h2>
-          <ul>
-          {this.state.channels.map(this.renderChannel)}
+        {this.state.showLogin ? (
+        <div className="login">
+          <p>
+            RadioSlack turns your Slack channels into radio stations.<br />
+            Just post a song link in the channel to queue songs.<br />
+          </p>
+          <p>
+            <button><a href="/login">Login with Slack</a></button>
+          </p>
+        </div>
+        ) : (
+        <div>
+          <div className="channels">
+            <h2>{this.state.team}</h2>
+            <ul>
+            {this.state.channels.map(this.renderChannel)}
+            </ul>
+          </div>
+          <ul className="queue">
+          {this.state.queue.length ? (
+            this.state.queue.map(this.renderSong)
+          ) : this.state.channel ? (
+            <div className="empty-queue">
+              Post a Soundcloud song in this channel
+              to get your station started.
+            </div>
+          ) : null}
           </ul>
         </div>
-        <ul className="queue">
-        {this.state.queue.length ? (
-          this.state.queue.map(this.renderSong)
-        ) : (
-          <div className="empty-queue">
-            Post a Soundcloud song in this channel
-            to get your station started.
-          </div>
         )}
-        </ul>
       </div>
     )
   },

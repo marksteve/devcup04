@@ -6,8 +6,11 @@ html {
   background: white;
 }
 
-body {
+body, button {
   font: 20px/1.5 futura-pt, sans-serif;
+}
+
+body {
   color: #444;
   padding: 0;
   margin: 0;
@@ -23,20 +26,33 @@ h1 {
   font-family: azo-sans-uber, sans-serif;
   font-size: 1.5em;
 }
-h1 span:nth-child(n+1) {
+h1 span:nth-child(n+2) {
   color: #6ecadc;
 }
-h1 span:nth-child(2n+1) {
+h1 span:nth-child(2n+2) {
   color: #e9a820;
 }
-h1 span:nth-child(3n+1) {
+h1 span:nth-child(3n+2) {
   color: #3eb991;
 }
-h1 span:nth-child(4n+1) {
+h1 span:nth-child(4n+2) {
   color: #e01563;
 }
-h1 span:last-child {
-  color: inherit;
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul, p {
+  margin: 0 0 20px;
+}
+
+button {
+  border: 0;
+  background: #3eb991;
+  padding: 0 10px;
 }
 
 header {
@@ -52,10 +68,18 @@ header {
   right: 10px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.me a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.login {
+  padding: 20px;
+}
+
+.login a {
+  text-decoration: none;
+  color: white;
 }
 
 .channels {

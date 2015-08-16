@@ -37,6 +37,7 @@ func main() {
 	e.Get("/login", radioslack.Login)
 	e.Get("/oauth", radioslack.OAuth)
 	e.Get("/me", radioslack.Me)
+	e.Get("/logout", radioslack.Logout)
 	e.WebSocket("/queue/:teamId/:ch", radioslack.Queue)
 
 	go radioslack.Start()

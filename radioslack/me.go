@@ -11,6 +11,10 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
+type ErrorJson struct {
+	Error string `json:"error"`
+}
+
 type ChannelJson struct {
 	Id   string `json:"id"`
 	Name string `json:"name"`
@@ -24,7 +28,12 @@ type MeJson struct {
 }
 
 func Me(c *echo.Context) error {
-	cookie, _ := c.Request().Cookie("profile")
+	cookie, err := c.Request().Cookie("profile")
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, ErrorJson{
+			Error: "Unauthorized",
+		})
+	}
 	profile, _ := base64.StdEncoding.DecodeString(cookie.Value)
 	v, _ := jason.NewObjectFromBytes(profile)
 	teamId, _ := v.GetString("team_id")
