@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify --extension=.jsx static/radioslack.jsx -o static/radioslack.js -v"
+    "watch": "watchify --extension=.jsx static/radioslack.jsx -o static/radioslack.js -v",
+    "build": "browserify --extension=.jsx static/radioslack.jsx | uglifyjs - -cm --stats > static/radioslack.js"
   },
   "author": "marksteve",
   "devDependencies": {
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
+    "uglify-js": "^2.4.24",
     "watchify": "^3.3.1"
   },
   "dependencies": {
