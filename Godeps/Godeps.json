@@ -1,0 +1,55 @@
+{
+	"ImportPath": "github.com/marksteve/radioslack",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/antonholmquist/jason",
+			"Comment": "v1.0.0-6-g57a5501",
+			"Rev": "57a5501bfdd25d8c96783088cedc6467f2e8c63e"
+		},
+		{
+			"ImportPath": "github.com/bradfitz/http2",
+			"Rev": "f8202bc903bda493ebba4aa54922d78430c2c42f"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Rev": "9d4db5d1dbeff473d50e1bb82f5405c8cca0f0ac"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Rev": "9d4db5d1dbeff473d50e1bb82f5405c8cca0f0ac"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Rev": "b6ab76f1fe9803ee1d59e7e5b2a797c1fe897ce5"
+		},
+		{
+			"ImportPath": "github.com/kelseyhightower/envconfig",
+			"Comment": "v1.0.0-22-g4e0792c",
+			"Rev": "4e0792c28c6af6d74af7bac93eedb34a29107010"
+		},
+		{
+			"ImportPath": "github.com/labstack/echo",
+			"Comment": "v1.1.0-18-g031c14f",
+			"Rev": "031c14f0f74abeb03fcffc53f9e3310f53574704"
+		},
+		{
+			"ImportPath": "github.com/labstack/gommon/color",
+			"Comment": "v0.0.3-7-g3c61341",
+			"Rev": "3c613419957bbd5afea3fc87bbc0f9f2dca19196"
+		},
+		{
+			"ImportPath": "github.com/parnurzeal/gorequest",
+			"Comment": "v0.2.9",
+			"Rev": "1f4e8242ff000cfd0614a19da3b655be4e347f92"
+		},
+		{
+			"ImportPath": "golang.org/x/net/publicsuffix",
+			"Rev": "66f0418ca41253f8d1a024eb9754e9441a8e79b9"
+		},
+		{
+			"ImportPath": "golang.org/x/net/websocket",
+			"Rev": "66f0418ca41253f8d1a024eb9754e9441a8e79b9"
+		}
+	]
+}

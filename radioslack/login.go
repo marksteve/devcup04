@@ -15,7 +15,7 @@ import (
 func Login(c *echo.Context) error {
 	u, _ := url.Parse("https://slack.com/oauth/authorize")
 	q := u.Query()
-	q.Set("client_id", c.Get("SlackClientId").(string))
+	q.Set("client_id", config.SlackClientId)
 	q.Set("scope", "client")
 	q.Set("state", "ofthenation")
 	u.RawQuery = q.Encode()
@@ -27,8 +27,8 @@ func OAuth(c *echo.Context) error {
 	req := gorequest.New()
 	res, _, _ := req.
 		Get("https://slack.com/api/oauth.access").
-		Query("client_id=" + c.Get("SlackClientId").(string)).
-		Query("client_secret=" + c.Get("SlackClientSecret").(string)).
+		Query("client_id=" + config.SlackClientId).
+		Query("client_secret=" + config.SlackClientSecret).
 		Query("code=" + code).
 		End()
 	v, _ := jason.NewObjectFromReader(res.Body)

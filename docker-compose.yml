@@ -1,0 +1,15 @@
+redis:
+  image: redis:latest
+  command: redis-server --appendonly yes
+
+radioslack:
+  build: .
+  links:
+    - redis:redis
+  ports:
+    - 8000:8000
+  volumes:
+    - .:/go/src/github.com/marksteve/radioslack
+  environment:
+    - RS_REDISHOST=redis
+  env_file: .env
